@@ -1,0 +1,15 @@
+{% extends "formsapp/base.html" %}
+{% block content %}
+
+<center>
+    {% block title %}
+    
+    {% endblock title %}
+
+As of {{ time }}
+<br/><br/><br/>
+{{ cal|safe }}
+<br/><br/><br/>
+Copyright (c) {{ current_year }}
+</center>
+{% endblock content %}
