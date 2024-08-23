@@ -8,7 +8,26 @@ from datetime import datetime
 from .models import Event, Venue
 from django.utils.datastructures import MultiValueDictKeyError
 from django.http import HttpResponse
+import csv
 
+
+# Generate csv
+def venue_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachement; filename=venues.csv'
+
+    #Create a csv writer
+    writer = csv.writer(response)
+    # Designate teh Model
+    venues = Venue.objects.all()
+    
+    # Add column headings to the csv file
+    writer.writerow(['Venue Name', 'Address', 'Zip Code', 'Phone', 'Web Address', 'Email' ])
+    # Loop through and output
+    for venue in venues: 
+        writer.writerow([venue.name, venue.address, venue.zip_code, venue.phone, venue.web, venue.email_address])
+    
+    return response
 
 # Generate Text File Venue List
 def venue_text(request):
