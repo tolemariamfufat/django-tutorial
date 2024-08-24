@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "members",
     "formsapp",
     "django.contrib.admin",
     "django.contrib.auth",

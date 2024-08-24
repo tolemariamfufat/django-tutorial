@@ -43,6 +43,9 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{% url "venue_pdf" %}">Venues PDF File</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url "login" %}">Login</a>
+              </li>
             <form class="d-flex" method=POST action="{% url "search-venues" %}">
                 {% csrf_token %}
                 <input class="form-control me-2" type="search" placeholder="Search Venues" aria-label="Search" name="searched" >
@@ -57,10 +60,15 @@
 
       <main class="container">
             <div class="pb-2 mb-2 border-bottom">
-                {% block page_header %}
-                {% endblock page_header %}
-
-            
+                {% if messages %}        
+                 {% for message in messages %}
+                  
+                  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                 {% endfor %}
+                {% endif %}
             
                 {% block content %}
             

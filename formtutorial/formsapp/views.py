@@ -10,11 +10,15 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.http import HttpResponse
 import csv
 
+
 from django.http import FileResponse
 import io 
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
+
+# Import Pagination Stuff
+from django.core.paginator import Paginator
 
 
 # Generate a PDF File Venue List
@@ -169,10 +173,16 @@ def show_venue(request, venue_id):
     return render(request, 'formsapp/show_venue.html', 
                   {'venue': venue})
 def list_venues(request):
-    venue_list = Venue.objects.all().order_by('-name') # '?' for random
-    return render(request, 'formsapp/venue.html', 
-                  {'venue_list': venue_list})
+    #venue_list = Venue.objects.all().order_by('-name') # '?' for random
+    venue_list = Venue.objects.all()
+    # Set up Pagination
+    p = Paginator(Venue.objects.all(), 3)
+    page = request.GET.get('page')
+    venues = p.get_page(page)
+    #nums = "a" * venues.paginator.num_pages
 
+    return render(request, 'formsapp/venue.html', 
+                  {'venue_list': venue_list, 'venues': venues}) # you can add 'nums': nums
 def all_events(request):
     event_list = Event.objects.all().order_by('-event_date')
     return render(request, 'formsapp/all_events.html', 

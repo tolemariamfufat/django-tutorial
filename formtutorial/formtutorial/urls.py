@@ -21,4 +21,11 @@ from django.urls import path, include
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include('formsapp.urls')),
+    path("members/", include('django.contrib.auth.urls')),
+    path("members/", include('members.urls')),
 ]
+
+# Configure admin titles
+admin.site.site_header = "My Club Adminstration Page"
+admin.site.site_title = "Browser Title"
+admin.site.index_title = "Welcome to the Admin Area..."
