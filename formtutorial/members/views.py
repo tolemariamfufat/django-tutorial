@@ -19,4 +19,15 @@ def login_user(request):
 
     return render(request, 'members/login.html', {})
 
+def logout_user(request):
+    logout(request)
+
+    messages.success(request, ("There are logged out!"))
+    return redirect('index')
+            
+
+
+
+
+
 
