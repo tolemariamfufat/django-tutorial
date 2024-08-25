@@ -3,8 +3,8 @@ from django.forms import ModelForm
 from .models import Venue, Event 
 
 
-# Create a venue form 
-class EventForm(ModelForm):
+# Admin SuperUser Event Form 
+class EventFormAdmin(ModelForm):
     class Meta:
         model = Event 
         fields = ('name', 'event_date', 'venue', 'manager','attendees', 'description')
@@ -21,6 +21,25 @@ class EventForm(ModelForm):
             'event_date': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Event Date'}),
             'venue': forms.Select(attrs={'class':'form-select', 'placeholder': 'Venue'}),
             'manager': forms.Select(attrs={'class':'form-select', 'placeholder': 'Manager'}),
+            'attendees': forms.SelectMultiple(attrs={'class':'form-control', 'placeholder': 'Attendees'}),
+            'description': forms.Textarea(attrs={'class':'form-control', 'placeholder': 'Description'}),         
+        }
+# User event form
+class EventForm(ModelForm):
+    class Meta:
+        model = Event 
+        fields = ('name', 'event_date', 'venue','attendees', 'description')
+        labels = {
+            'name': '',
+            'event_date': 'YY-MM-DD HH:MM:SS',
+            'venue': 'Venue',
+            'attendees': 'Attendees',
+            'description': '', 
+        }
+        widgets = {
+            'name': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Event Name'}),
+            'event_date': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Event Date'}),
+            'venue': forms.Select(attrs={'class':'form-select', 'placeholder': 'Venue'}),
             'attendees': forms.SelectMultiple(attrs={'class':'form-control', 'placeholder': 'Attendees'}),
             'description': forms.Textarea(attrs={'class':'form-control', 'placeholder': 'Description'}),         
         }

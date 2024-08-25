@@ -34,13 +34,19 @@
             
         
     </div>
-        <dive class="card-footer text-muted">            
+    {% if user.is_authenticated %}
+        {% if user == event.manager %}
+        <dive class="card-footer text-muted">
+            
             <a href="{% url "update-event" event.id %}"
             class="btn btn-outline-secondary btn-sm">Update Event</a>
 
             <a href="{% url "delete-event" event.id %}"
             class="btn btn-outline-danger btn-sm">Delete Event</a>
+           
         </div>
+            {% endif %}
+        {% endif %}
     </div>
 {% endfor %} 
 

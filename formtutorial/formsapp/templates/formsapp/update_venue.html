@@ -1,6 +1,6 @@
 {% extends "formsapp/base.html" %}
 {% block content %}
-
+{% if user.is_authenticated %}
 
     <h1>Update Venue...</h1>
     <br/>
@@ -13,4 +13,9 @@
     <input type="submit" value="Update"
     class="btn btn-secondary">
 </form>
+{% else %}
+    <h1>Sorry! You must be logged in to view this page...</h1>
+    <a href="{% url "login" %}">Login Here</a>
+    
+    {% endif %}
 {% endblock content %}

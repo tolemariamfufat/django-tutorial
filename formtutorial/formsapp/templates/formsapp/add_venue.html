@@ -1,9 +1,10 @@
 {% extends "formsapp/base.html" %}
 
 {% block content %}
+{% if user.is_authenticated %}
         <center>
             <h1>Add Venue To Database</h1>
-            <br/><br/>            
+            <br/><br/>   
             {% if submitted %}
             Submitted!
 
@@ -14,6 +15,11 @@
                 </form> 
                 {% endif %}
             </center>  
+
+            {% else %}
+            <h1>Sorry! You must be logged in to view this page...</h1>
+            <a href="{% url "login" %}">Login Here</a>
+            {% endif %}
 {% endblock content %}
       
               
