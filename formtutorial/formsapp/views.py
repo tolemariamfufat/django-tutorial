@@ -6,10 +6,12 @@ import calendar
 from calendar import HTMLCalendar
 from datetime import datetime
 from .models import Event, Venue
+# Import User Model from Django
+from django.contrib.auth.models import User
 from django.utils.datastructures import MultiValueDictKeyError
 from django.http import HttpResponse
 import csv
-
+from django.contrib import messages
 
 from django.http import FileResponse
 import io 
@@ -100,18 +102,23 @@ def venue_text(request):
 
 
 #   Delete an Event
-def delete_venue(reques, venue_id):
+def delete_venue(request, venue_id):
     venue = Venue.objects.get(pk=venue_id)
     venue.delete()
     #render redirect('list-events')
     return redirect('list-venues')
 
 #   Delete an Event
-def delete_event(reques, event_id):
+def delete_event(request, event_id):
     event = Event.objects.get(pk=event_id)
-    event.delete()
-    #render redirect('list-events')
-    return redirect('all_events')
+    if request.user == event.manager:
+        event.delete()
+        messages.success(request, ("Event Deleted!"))
+        return redirect('all_events')
+    else:
+        messages.success(request, ("You are not authorized to delete this event!"))
+        #render redirect('list-events')
+        return redirect('all_events')
 
 def update_event(request, event_id):
     event = Event.objects.get(pk=event_id)
@@ -190,8 +197,9 @@ def search_venues(request):
 
 def show_venue(request, venue_id):
     venue = Venue.objects.get(pk=venue_id)
+    venue_owner = User.objects.get(pk=venue.owner)
     return render(request, 'formsapp/show_venue.html', 
-                  {'venue': venue})
+                  {'venue': venue, 'venue_owner': venue_owner})
 def list_venues(request):
     #venue_list = Venue.objects.all().order_by('-name') # '?' for random
     venue_list = Venue.objects.all()
