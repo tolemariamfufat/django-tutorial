@@ -22,6 +22,19 @@ from reportlab.lib.pagesizes import letter
 # Import Pagination Stuff
 from django.core.paginator import Paginator
 
+# Create My Events Page
+def my_events(request):
+    if request.user.is_authenticated:
+        me = request.user.id
+        events = Event.objects.filter(attendees=me)
+        return render(request, 'formsapp/my_events.html', {'events': events})
+
+
+    else:
+        messages.success(request, ("You are not authorized to view this Page!"))
+        #render redirect('list-events')
+        return redirect('index')
+
 
 # Generate a PDF File Venue List
 def venue_pdf(request):
@@ -194,6 +207,18 @@ def search_venues(request):
         return render(request, 
         'formsapp/search_venues.html', 
         {})
+
+def search_events(request):
+    if request.method == 'POST':        
+            searched = request.POST['searched']
+            events = Event.objects.filter(name__contains=searched)
+            return render(request, 
+            'formsapp/search_events.html', 
+            {'searched': searched, 'events': events})
+        
+    else:
+        return render(request, 
+        'formsapp/search_events.html', {})
 
 def show_venue(request, venue_id):
     venue = Venue.objects.get(pk=venue_id)
