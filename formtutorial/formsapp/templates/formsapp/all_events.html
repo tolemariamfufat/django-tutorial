@@ -8,7 +8,7 @@
 {% endblock title %}
     
 {% for event in event_list %}
-
+{% if event.approved %}
     <div class="card">
         <div class="card-header">
         {{ event }}
@@ -21,7 +21,7 @@
             <li>Date: {{ event.event_date }}</li>
             <li>Days Till Event: {{ event.Days_till }}</li>
             <li>Description: {{ event.description }}</li>
-            
+            <li>Approved: {{ event.approved }}</li>
             <li>Occured: {{ event.Is_Past }}</li>
             <li>Venue Website: {{ event.venue.web }}</li>
             <li>Manager: {{ event.manager }}</li>
@@ -49,6 +49,7 @@
             {% endif %}
         {% endif %}
     </div>
+    {% endif %}
 {% endfor %} 
 
 {% endblock content %}
