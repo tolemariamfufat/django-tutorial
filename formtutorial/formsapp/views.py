@@ -21,10 +21,38 @@ from reportlab.lib.pagesizes import letter
 
 # Import Pagination Stuff
 from django.core.paginator import Paginator
+# Show Events
+def show_event(request, event_id):
+    event = Event.objects.get(pk=event_id)
+    return render(request, 'formsapp/show_event.html', {
+        "event": event
+    })
+
+
+# Show Events In A Venue
+def venue_events(request, venue_id):
+    # Grab the Venue
+    venue = Venue.objects.get(id=venue_id)
+    # Grab the events from that venue
+    events = venue.event_set.all()
+    if events:
+        return render(request, 'formsapp/venue_events.html', {
+            "events": events
+    })
+
+    else:
+        messages.success(request, "That Venue Has No Events At This Time!")
+        return redirect("admin_approval")
 
 
 # Create Admin Event Approval Page
 def admin_approval(request):
+    # Get The Venues
+    venue_list = Venue.objects.all()
+    # Get counts
+    event_count = Event.objects.all().count()
+    venue_count = Venue.objects.all().count()
+    user_count = User.objects.all().count()
     event_list = Event.objects.all().order_by('-event_date')
     if request.user.is_superuser:
         if request.method == "POST":
@@ -39,7 +67,12 @@ def admin_approval(request):
             return redirect("all_events")
 
         else:
-            return render(request, 'formsapp/admin_approval.html', {"event_list": event_list})
+            return render(request, 'formsapp/admin_approval.html', 
+                          {"event_list": event_list, 
+                           "event_count": event_count, 
+                           "venue_count": venue_count, 
+                           "user_count": user_count,
+                           "venue_list": venue_list})
 
     else: 
         messages.success(request, "You are not authorized to view this page!")
