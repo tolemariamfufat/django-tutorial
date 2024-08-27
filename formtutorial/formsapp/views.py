@@ -182,7 +182,7 @@ def add_event(request):
 
 def update_venue(request, venue_id):    
     venue = Venue.objects.get(pk=venue_id)
-    form = VenueForm(request.POST or None, instance=venue)
+    form = VenueForm(request.POST or None, request.FILES or None, instance=venue)
     if form.is_valid():
         form.save()
         return redirect('list-venues')
@@ -250,6 +250,11 @@ def index(request, year=datetime.now().year, month=datetime.now().strftime('%B')
     # Create a calendar
     now = datetime.now()
     current_year = now.year
+    # Query Current year
+    event_list = Event.objects.filter(
+        event_date__year = year,
+        event_date__month = month_number
+    )
     # Get current time
     time = now.strftime('%I:%M %p')
     cal = HTMLCalendar().formatmonth(
@@ -265,19 +270,20 @@ def index(request, year=datetime.now().year, month=datetime.now().strftime('%B')
             "cal":cal,
             "current_year": current_year,
             "time": time,
+            "event_list": event_list
             })
 
 def add_venue(request):
     submitted = False
     if request.method == 'POST':
-        form = VenueForm(request.POST)
+        form = VenueForm(request.POST, request.FILES)
         if form.is_valid():
             venue = form.save(commit=False)
             venue.owner = request.user.id # logged in user
             venue.save()
             #form.save()
-            return HttpResponseRedirect('/add_venue?submitted=True')
-            #return HttpResponseRedirect(reverse('index'))
+            #return HttpResponseRedirect('/add_venue?submitted=True')
+            return HttpResponseRedirect(reverse('index'))
             
     else:
         form = VenueForm

@@ -14,29 +14,26 @@
           <h5 class="card-title">{{ venue }}</h5>
           <p class="card-text">
               <ul>
-              {% if venue.address %}
-                <li>{{ venue.address }}</li>
-              {% endif %}
-            
-            {% if venue.zip_code %}
-              <li>{{ venue.zip_code }}</li>
-            {% endif %}
-           
-            {% if venue.phone %}
-              <li>{{ venue.phone }}</li>
-            {% endif %}
-            
-            {% if venue.web %}
-              <li><a href="{{ venue.web }}">{{ venue.web }}</a></li>
-            {% endif %}            
               
-            {% if venue.email_address %}
+                <li>{{ venue.address }}</li>        
+            
+               <li>{{ venue.zip_code }}</li>                   
+         
+              <li>{{ venue.phone }}</li>      
+                      
+              <li><a href="{{ venue.web }}">{{ venue.web }}</a></li>
+                          
               <li>{{ venue.email_address }}"</li>
-            {% endif %}
-            {% if venue.owner %}
-              <li>Owner ID: {{ venue_owner }}</li>     
-            {% endif %}       
-              </ul>        
+                    
+              <li>Owner: {{ venue_owner }}</li>   
+              <li>Owner's Email: {{ venue_owner.email}}</li>  
+           
+              </ul>     
+
+                 <br/>
+                 {% if venue.venue_image %}
+                 <img src="{{ venue.venue_image.url }}" width=600>
+                 {% endif %}
             </p>
         </div>
       </div> 
