@@ -301,7 +301,6 @@ def all_events(request):
     return render(request, 'formsapp/all_events.html', 
                   {'event_list': event_list})
 def index(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
-    name = "Jhon"
     month = month.capitalize()
     # Convert month from name to number
     month_number = list(calendar.month_name).index(month)
@@ -322,8 +321,7 @@ def index(request, year=datetime.now().year, month=datetime.now().strftime('%B')
         month_number)
     # Get current year
     return render(request, 
-            'formsapp/index.html', {
-            "name": name,
+            'formsapp/index.html', {        
             "year": year,
             "month": month,
             "month_number": month_number,
