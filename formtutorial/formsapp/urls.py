@@ -8,7 +8,7 @@ urlpatterns = [
     # path: whole urls /
     # slug: hyphen-and_underscore_stuff
     # UUID: universally unique identifiers
-    path("index/", views.index, name='index'),
+    path("", views.index, name='index'),
     path("add_venue/", views.add_venue, name='add_venue'),
     path("<int:year>/<str:month>/", views.index, name='index'),
     path("all_events/", views.all_events, name='all_events'),
