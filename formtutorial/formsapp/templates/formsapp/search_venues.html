@@ -1,36 +1,29 @@
 {% extends "formsapp/base.html" %}
-
 {% block content %}
-
-
-    {% if searched %}
-  <h1>You Searched For {{ searched }}</h1>
-    <br/>
-
+  {% if searched %}
+    <h1>You Searched For {{ searched }}</h1>
+    <br />
     {% for venue in venues %}
-        
-    <div class="card">
-      <div class="card-header">
-          Venue
-      </div>
-      <div class="card-body">
-        <h5 class="card-title">{{ venue }}</h5>
-        <p class="card-text">
-          <ul>
-          <li>{{ venue.address }}</li>
-          <li>{{ venue.zip_code }}</li>
-          <li>{{ venue.phone }}</li>
-          <li><a href="{{ venue.web }}">{{ venue.web }}</a></li>             
-          <li>Owner ID: {{ venue.owner }}</li>            
-        </ul>        
+      <div class="card">
+        <div class="card-header">Venue</div>
+        <div class="card-body">
+          <h5 class="card-title">{{ venue }}</h5>
+          <p class="card-text">
+            <ul>
+              <li>{{ venue.address }}</li>
+              <li>{{ venue.zip_code }}</li>
+              <li>{{ venue.phone }}</li>
+              <li>
+                <a href="{{ venue.web }}">{{ venue.web }}</a>
+              </li>
+              <li>Owner ID: {{ venue.owner }}</li>
+            </ul>
           </p>
+        </div>
       </div>
-    </div> 
-    <br/>
-
+      <br />
     {% endfor %}
   {% else %}
-  <h1>Hey! You Forgot To Search For a Venue...</h1>
-    {% endif %}
-
+    <h1>Hey! You Forgot To Search For a Venue...</h1>
+  {% endif %}
 {% endblock content %}
